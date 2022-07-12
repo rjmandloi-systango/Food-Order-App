@@ -1,0 +1,9 @@
+.MealsSummary {
+  background-color: rgb(77, 71, 71);
+  color: white;
+  position: absolute;
+  max-height: 100%;
+  top: 250px;
+  left: 400px;
+  box-shadow: 5px 5px #888888;
+}
