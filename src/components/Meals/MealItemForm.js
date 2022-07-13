@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import Input from "../UI/Input";
 import "../Layout/HeaderCartButton.css";
-export default function MealItemForm() {
+
+export default function MealItemForm(props) {
+  const amountInputRef = useRef();
+  const [amountIsValid, setAmountIsValid] = useState(true);
+  const submitHandler = (event) => {
+    event.preventDefault();
+    const enteredAmount = amountInputRef.current.value;
+    const enteredAmountNumber = +enteredAmount;
+    if (
+      enteredAmount.trim().length === 0 ||
+      enteredAmountNumber < 1 ||
+      enteredAmountNumber > 5
+    ) {
+      setAmountIsValid(false);
+      return;
+    }
+    props.onAddToCart(enteredAmountNumber)
+  };
+
   return (
-    <form>
+    <form onSubmit={submitHandler}>
       <Input
-        label={"Amonunt"}
+        ref={amountInputRef}
+        label={"Amount"}
         input={{
           id: "amount",
           type: "number",
@@ -16,6 +35,7 @@ export default function MealItemForm() {
         }}
       ></Input>
       <button className="rounded-pill me-3 cart-button">+Add</button>
+      {!amountIsValid && <p>please enter a valid amount(1-5)</p>}
     </form>
   );
 }
